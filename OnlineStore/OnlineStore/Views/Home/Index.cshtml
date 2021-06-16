@@ -15,14 +15,30 @@
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
+    <p >
+        <h1 style="color:greenyellow"> @Html.ActionLink("Products","index", "Products")</h1>
+    </p>
     <table class="table">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.PName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @Html.DisplayNameFor(model => model.PImage)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PurchasePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SellPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+       
             <th></th>
         </tr>
     
@@ -32,7 +48,19 @@
                 @Html.DisplayFor(modelItem => item.PName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Price)
+                @Html.DisplayFor(modelItem => item.PImage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PurchasePrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SellPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
