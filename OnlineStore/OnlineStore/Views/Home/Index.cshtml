@@ -1,75 +1,51 @@
 ﻿@model IEnumerable<OnlineStore.Models.Product>
 
-@{
-    Layout = null;
-}
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <p >
-        <h1 style="color:greenyellow"> @Html.ActionLink("Products","index", "Products")</h1>
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.PName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PImage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PurchasePrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SellPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </th>
-       
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PImage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PurchasePrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SellPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-            </td>
-        </tr>
-    }
-    
-    </table>
-</body>
-</html>
+<div class="products">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="filters">
+                    <ul>
+                        <li class="active" data-filter="*">All Products</li>
+                        <li data-filter=".des">Featured</li>
+                        <li data-filter=".dev">Flash Deals</li>
+                        <li data-filter=".gra">Last Minute</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="filters-content">
+                    <div class="row grid">
+                        @foreach (var item in Model)
+                        {
+                            <div class="col-lg-4 col-md-4 all des" style="position: absolute; left: 0%; top: 0px;">
+                                <div class="product-item">
+                                    <a href="@Url.Action("Details","Products",new { id = item.Id})">
+                                    <img class="img-fluid img-thumbnail" style="height: 165px;" src="@(string.IsNullOrEmpty(item.PImage) ? Url.Content("~/Images/DPI.png") : Url.Content(item.PImage))" alt=""></a>
+                                    <div class="down-content">
+                                        <a href="@Url.Action("Details","Products",new { id = item.Id})">
+                                        <h4 style="color:forestgreen;cursor:pointer">@item.PName</h4></a>
+                                        <h6>$ @item.SellPrice</h6>
+                                        <p>@item.Description</p>
+                                        <div>
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
+
+                                        </div>
+                                        <span>Reviews (12)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

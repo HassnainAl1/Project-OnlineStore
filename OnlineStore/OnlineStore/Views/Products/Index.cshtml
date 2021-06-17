@@ -24,14 +24,18 @@
                         {
                             <div class="col-lg-4 col-md-4 all des" style="position: absolute; left: 0%; top: 0px;">
                                 <div class="product-item">
-                                    <a href="#"><img src="~/assets/images/product_01.jpg" alt=""></a>
+                                    <a href="@Url.Action("Details","Products",new { id = item.Id})">
+                                        <img class="img-fluid img-thumbnail" style="height: 165px; " src="@(string.IsNullOrEmpty(item.PImage) ? Url.Content("~/Images/DPI.png") : Url.Content(item.PImage))" alt="">
+                                    </a>
                                     <div class="down-content">
-                                        <a href="#"><h3 style="color:forestgreen">@item.PName</h3></a>
+                                        <a href="@Url.Action("Details","Products",new { id = item.Id})">
+                                            <h4 style="color:forestgreen;cursor:pointer">@item.PName</h4>
+                                        </a>
                                         <h6>$ @item.SellPrice</h6>
                                         <p>@item.Description</p>
                                         <div>
                                             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Delete", "DeleteEmp", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
 
                                         </div>
                                         <span>Reviews (12)</span>

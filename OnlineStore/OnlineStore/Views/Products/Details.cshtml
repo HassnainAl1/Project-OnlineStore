@@ -1,74 +1,50 @@
 ﻿@model OnlineStore.Models.Product
 
-@{
-    Layout = null;
-}
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>Product</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.PName)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PName)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.PImage)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PImage)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.PurchasePrice)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.PurchasePrice)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.SellPrice)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.SellPrice)
-            </dd>
-    
-            <dt>
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.CreatedDate)
-            </dd>
-    
-        </dl>
+<div class="products">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="filters">
+                    <ul>
+                        <li class="active" data-filter="*">All Products</li>
+                        <li data-filter=".des">Featured</li>
+                        <li data-filter=".dev">Flash Deals</li>
+                        <li data-filter=".gra">Last Minute</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="filters-content">
+                    <div class="row grid">
+                      
+                            <div class="col-lg-4 col-md-4 all des" style="position: absolute; left: 0%; top: 0px;">
+                                <div class="product-item">
+                                    <a href="@Url.Action("Details","Products",new { id = Model.Id})">
+                                        <img class="img-fluid img-thumbnail" style="height: 165px;" src="@(string.IsNullOrEmpty(Model.PImage) ? Url.Content("~/Images/DPI.png") : Url.Content(Model.PImage))" alt="">
+                                    </a>
+                                    <div class="down-content">
+                                        <a href="@Url.Action("Details","Products",new { id = Model.Id})">
+                                            <h4 style="color:forestgreen;cursor:pointer">@Model.PName</h4>
+                                        </a>
+                                        <h6>$ @Model.SellPrice</h6>
+                                        <p>@Model.Description</p>
+                                        <div>
+                                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
+
+                                        </div>
+                                        <span>Reviews (12)</span>
+                                    </div>
+                                </div>
+                            </div>
+                       
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+</div>
+

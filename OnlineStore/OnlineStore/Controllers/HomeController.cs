@@ -32,7 +32,7 @@ namespace OnlineStore.Controllers
             //var lastWeekEnd = thisWeekStart.AddSeconds(-1);
 
 
-            var latestProducts = _unitOfWork.ProductRepo.Get(p => p.CreatedDate >= lastWeek && p.CreatedDate <= today);
+            var latestProducts = _unitOfWork.ProductRepo.Get(p => p.CreatedDate >= lastWeek && p.CreatedDate <= today, p => p.OrderByDescending(x => x.CreatedDate));
             return View(latestProducts);
         }
 
