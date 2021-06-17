@@ -314,12 +314,13 @@ header .navbar {
 	position: relative;
 	text-align: center;
 	padding-top: 80px;
+
 }
 
 .banner-item-01 {
 	padding: 300px 0px;
 	background-image: url(../images/slide_01.jpg);
-	background-size: cover;
+	background-size: 1260px 600px;
 	background-repeat: no-repeat;
 	background-position: center center;
 }
@@ -327,7 +328,7 @@ header .navbar {
 .banner-item-02 {
 	padding: 300px 0px;
 	background-image: url(../images/slide_02.jpg);
-	background-size: cover;
+	background-size: 1260px 600px;
 	background-repeat: no-repeat;
 	background-position: center center;
 }
@@ -335,7 +336,7 @@ header .navbar {
 .banner-item-03 {
 	padding: 300px 0px;
 	background-image: url(../images/slide_03.jpg);
-	background-size: cover;
+	background-size: 1260px 600px;
 	background-repeat: no-repeat;
 	background-position: center center;
 }
