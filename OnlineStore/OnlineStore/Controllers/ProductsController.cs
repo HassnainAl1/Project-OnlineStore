@@ -1,6 +1,7 @@
 ﻿using OnlineStore.DAL;
 using OnlineStore.DAL.Interfaces;
 using OnlineStore.Models;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,11 @@ namespace OnlineStore.Controllers
 
         // GET: Products        
                                 //(int page = 1)
-        public ActionResult Index()
+        public ActionResult Index(int page = 1)
         {
-            var data = _unitOfWork.ProductRepo.Get();
-            return View(data);
+            IEnumerable<Product> products = _unitOfWork.ProductRepo.Get();
+            PagedList<Product> model= new PagedList<Product>(products, page, 5);
+            return View(model);
         }
 
         public ActionResult Create()

@@ -1,4 +1,8 @@
-﻿@model IEnumerable<OnlineStore.Models.Product>
+﻿@*@model IEnumerable<OnlineStore.Models.Product>*@
+@using PagedList.Mvc;
+
+@model PagedList.IPagedList<OnlineStore.Models.Product>
+
 
 <div class="products">
     <div class="container">
@@ -26,9 +30,9 @@
                                         <h6>$ @item.SellPrice</h6>
                                         <p>@item.Description</p>
                                         <div>
-                                           @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |                                                                                
-                                           @Html.ActionLink("Delete", "DeleteEmp", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
-                                           
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                            @Html.ActionLink("Delete", "DeleteEmp", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
+
                                         </div>
                                         <span>Reviews (12)</span>
                                     </div>
@@ -36,107 +40,18 @@
                             </div>
                         }
 
-                        @*<div class="col-lg-4 col-md-4 all dev" style="position: absolute; left: 33.3333%; top: 0px;">
-                            <div class="product-item">
-                                <a href="#"><img src="assets/images/product_02.jpg" alt=""></a>
-                                <div class="down-content">
-                                    <a href="#"><h4>Tittle goes here</h4></a>
-                                    <h6>$16.75</h6>
-                                    <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>Reviews (24)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 all gra" style="position: absolute; left: 66.6667%; top: 0px;">
-                            <div class="product-item">
-                                <a href="#"><img src="assets/images/product_03.jpg" alt=""></a>
-                                <div class="down-content">
-                                    <a href="#"><h4>Tittle goes here</h4></a>
-                                    <h6>$32.50</h6>
-                                    <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>Reviews (36)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 all gra" style="position: absolute; left: 0%; top: 383px;">
-                            <div class="product-item">
-                                <a href="#"><img src="assets/images/product_04.jpg" alt=""></a>
-                                <div class="down-content">
-                                    <a href="#"><h4>Tittle goes here</h4></a>
-                                    <h6>$24.60</h6>
-                                    <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>Reviews (48)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 all dev" style="position: absolute; left: 33.3333%; top: 383px;">
-                            <div class="product-item">
-                                <a href="#"><img src="assets/images/product_05.jpg" alt=""></a>
-                                <div class="down-content">
-                                    <a href="#"><h4>Tittle goes here</h4></a>
-                                    <h6>$18.75</h6>
-                                    <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>Reviews (60)</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 all des" style="position: absolute; left: 66.6667%; top: 383px;">
-                            <div class="product-item">
-                                <a href="#"><img src="assets/images/product_06.jpg" alt=""></a>
-                                <div class="down-content">
-                                    <a href="#"><h4>Tittle goes here</h4></a>
-                                    <h6>$12.50</h6>
-                                    <p>Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                                    <ul class="stars">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>Reviews (72)</span>
-                                </div>
-                            </div>
-                        </div>*@
+
                     </div>
                 </div>
             </div>
             <div class="col-md-12">
-                <ul class="pages">
-                    <li class="active"><a href="#">1</a></li>
-                    <li ><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                </ul>
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }),new PagedListRenderOptions {
+
+               UlElementClasses = new string[] { "pages" }
+
+           })
+                Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Products
+
             </div>
         </div>
     </div>
