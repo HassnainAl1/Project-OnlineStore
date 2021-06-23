@@ -8,6 +8,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using OnlineStore.DAL;
+using OnlineStore.DAL.Interfaces;
+using OnlineStore.Enums;
 using OnlineStore.Models;
 
 namespace OnlineStore.Controllers
@@ -18,11 +21,13 @@ namespace OnlineStore.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private readonly IUnitOfWork _unitOfWork;
         public AccountController()
         {
+            _unitOfWork = new UnitOfWork();
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +39,9 @@ namespace OnlineStore.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -73,22 +78,24 @@ namespace OnlineStore.Controllers
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            var user = _unitOfWork.UserRepo.Get(u => u.Email == model.Email && u.Password == model.Password).FirstOrDefault();
+            if (user == null)
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                ModelState.AddModelError("User not exist", new Exception("User not exist"));
+                return View();
             }
+
+            var ident = new ClaimsIdentity(new[] {
+               new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+               new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "ASP.NET Identity", "http://www.w3.org/2001/XMLSchema#string"),
+               new Claim(ClaimTypes.Name,user.FirstName + " " + user.LastName),
+               new Claim(ClaimTypes.Role, user.Role),
+               new Claim(ClaimTypes.DateOfBirth, user.CreatedDate.ToString("Y")),
+               new Claim(ClaimTypes.Uri,user.ProfilePicture)
+            }, DefaultAuthenticationTypes.ApplicationCookie);
+            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
+            //Session["User_Photo"] = user.ProfilePicture;
+            return Redirect("~/");
         }
 
         //
@@ -120,7 +127,7 @@ namespace OnlineStore.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -149,23 +156,28 @@ namespace OnlineStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                model.Role = "User";
+                model.ProfilePicture = "Images/Profile/avatar5.png";
+                model.CreatedDate = DateTime.Now;
+                var user = new User
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Email = model.Email,
+                    Country = model.Country,
+                    PhoneNumber = model.PhoneNumber,
+                    Password = model.Password,
+                    Role=model.Role,
+                    ProfilePicture=model.ProfilePicture,
+                    CreatedDate = model.CreatedDate
+                };
+                _unitOfWork.UserRepo.Insert(user);
+                _unitOfWork.Save();
 
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
+                return Redirect("~/");
             }
 
             // If we got this far, something failed, redisplay form
@@ -387,8 +399,8 @@ namespace OnlineStore.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -481,5 +493,28 @@ namespace OnlineStore.Controllers
             }
         }
         #endregion
+
+        public ActionResult Profile()
+        {
+            var userId = Convert.ToInt32(User.Identity.GetUserId());
+
+            var data = _unitOfWork.UserRepo.GetById(userId);
+
+            return View(data);
+        }
+
+        [HttpPost]
+        public ActionResult Profile(User model)
+        {
+
+            //var data = _unitOfWork.UserRepo.GetByIdWithOutTracking(model.Id);
+            //model.CreatedDate = data.CreatedDate;
+            //model.ProfilePicture = data.ProfilePicture;
+
+            _unitOfWork.UserRepo.Update(model);
+            _unitOfWork.Save();
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

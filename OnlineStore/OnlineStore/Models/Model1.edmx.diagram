@@ -5,11 +5,11 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="2066239aaffb4e29a91aac6c65feb3f5" Name="Diagram1">
-        <EntityTypeShape EntityType="OnlineStoreDBModel.Order" Width="1.5" PointX="3" PointY="8.125" />
-        <EntityTypeShape EntityType="OnlineStoreDBModel.OrderDetail" Width="1.5" PointX="5.25" PointY="8" />
-        <EntityTypeShape EntityType="OnlineStoreDBModel.Product" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="OnlineStoreDBModel.ProductReview" Width="1.5" PointX="3" PointY="4" />
-        <EntityTypeShape EntityType="OnlineStoreDBModel.User" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="OnlineStoreDBModel.Order" Width="1.5" PointX="3" PointY="6.25" />
+        <EntityTypeShape EntityType="OnlineStoreDBModel.OrderDetail" Width="1.5" PointX="5.25" PointY="6.125" />
+        <EntityTypeShape EntityType="OnlineStoreDBModel.Product" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="OnlineStoreDBModel.ProductReview" Width="1.5" PointX="3" PointY="2" />
+        <EntityTypeShape EntityType="OnlineStoreDBModel.User" Width="1.5" PointX="0.75" PointY="2.5" />
         <AssociationConnector Association="OnlineStoreDBModel.FK__Order__UId__2D27B809" />
         <AssociationConnector Association="OnlineStoreDBModel.FK_OrderDetail_Order" />
         <AssociationConnector Association="OnlineStoreDBModel.FK_OrderDetail_Product" />

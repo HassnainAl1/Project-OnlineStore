@@ -183,9 +183,11 @@
     <Compile Include="DAL\Interfaces\IUnitOfWork.cs" />
     <Compile Include="DAL\OnlineStoreRepository.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
+    <Compile Include="Enums\UserRole.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\IdentityHelperExtensions.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -260,15 +262,50 @@
     <Content Include="assets\js\slick.js" />
     <Content Include="assets\summernote\summernote-bs4.css" />
     <Content Include="assets\summernote\summernote-bs4.js" />
+    <Content Include="Content\adminlte.min.css" />
+    <Content Include="Content\all.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\dropzone\basic.css" />
+    <Content Include="Content\dropzone\dropzone-amd-module.js" />
+    <Content Include="Content\dropzone\dropzone.css" />
+    <Content Include="Content\dropzone\dropzone.js" />
+    <Content Include="Content\dropzone\min\basic.css" />
+    <Content Include="Content\dropzone\min\basic.min.css" />
+    <Content Include="Content\dropzone\min\dropzone-amd-module.min.js" />
+    <Content Include="Content\dropzone\min\dropzone.css" />
+    <Content Include="Content\dropzone\min\dropzone.min.css" />
+    <Content Include="Content\dropzone\min\dropzone.min.js" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\bag.jpg" />
+    <Content Include="Images\camera.jpg" />
+    <Content Include="Images\DPI.png" />
+    <Content Include="Images\prod-5.jpg" />
+    <Content Include="Images\product05.png" />
+    <Content Include="Images\product_02.jpg" />
+    <Content Include="Images\CT_WM_BTS-BTC-AppliancesHome_20150723.jpg" />
+    <Content Include="Images\emergency light.JPG" />
+    <Content Include="Images\1543993724_pg4.jpg" />
+    <Content Include="Images\iPad-air.png" />
+    <Content Include="Images\iron.JPG" />
+    <Content Include="Images\laptop_PNG5930.png" />
+    <Content Include="Images\pm1.jpg" />
+    <Content Include="Images\product07.png" />
+    <Content Include="Images\Profile\avatar2.png" />
+    <Content Include="Images\Profile\avatar5.png" />
+    <Content Include="Images\Profile\user1.jpg" />
+    <Content Include="Images\Profile\user3.jpg" />
+    <Content Include="Images\Profile\user6.jpg" />
+    <Content Include="Images\pt1.jpg" />
+    <Content Include="Images\product_05.png" />
+    <Content Include="Images\SingerMixer.jpg" />
+    <Content Include="Images\Profile\user2.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -293,6 +330,9 @@
     <Content Include="assets\fonts\slick.eot" />
     <Content Include="assets\fonts\slick.ttf" />
     <Content Include="assets\fonts\slick.woff" />
+    <Content Include="webfonts\fa-brands-400.svg" />
+    <Content Include="webfonts\fa-regular-400.svg" />
+    <Content Include="webfonts\fa-solid-900.svg" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -304,6 +344,7 @@
     <Content Include="assets\summernote\font\summernote.ttf" />
     <Content Include="assets\summernote\font\summernote.woff" />
     <Content Include="assets\summernote\font\summernote.woff2" />
+    <Content Include="Content\dropzone\dropzone.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -372,6 +413,21 @@
     <Content Include="Views\Products\Details.cshtml" />
     <Content Include="Views\Products\Delete.cshtml" />
     <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Shared\_AccountLayout.cshtml" />
+    <Content Include="webfonts\fa-brands-400.eot" />
+    <Content Include="webfonts\fa-brands-400.ttf" />
+    <Content Include="webfonts\fa-brands-400.woff" />
+    <Content Include="webfonts\fa-brands-400.woff2" />
+    <Content Include="webfonts\fa-regular-400.eot" />
+    <Content Include="webfonts\fa-regular-400.ttf" />
+    <Content Include="webfonts\fa-regular-400.woff" />
+    <Content Include="webfonts\fa-regular-400.woff2" />
+    <Content Include="webfonts\fa-solid-900.eot" />
+    <Content Include="webfonts\fa-solid-900.ttf" />
+    <Content Include="webfonts\fa-solid-900.woff" />
+    <Content Include="webfonts\fa-solid-900.woff2" />
+    <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Account\Profileccc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

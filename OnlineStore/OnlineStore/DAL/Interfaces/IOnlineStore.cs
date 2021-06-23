@@ -12,6 +12,7 @@ namespace OnlineStore.DAL.Interfaces
         IEnumerable<T> Get(Expression<Func<T, bool>> filter = null,
     Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,string includeProperties = "");
         T GetById(int id);
+        T GetByIdWithOutTracking(int id);
         void Insert(T model);
         void Delete(int id);
         void Update(T model);

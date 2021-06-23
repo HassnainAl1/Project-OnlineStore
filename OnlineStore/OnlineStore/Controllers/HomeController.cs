@@ -1,4 +1,5 @@
-﻿using OnlineStore.DAL;
+﻿using Microsoft.AspNet.Identity;
+using OnlineStore.DAL;
 using OnlineStore.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 
 namespace OnlineStore.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -23,6 +25,8 @@ namespace OnlineStore.Controllers
 
         public ActionResult Index()
         {
+            var name = User.Identity.Name;
+            var userId = User.Identity.GetUserId();
             DateTime currentDate = DateTime.Now;
             var today = currentDate;
             var lastWeek = currentDate.AddDays(-7);

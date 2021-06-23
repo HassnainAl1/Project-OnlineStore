@@ -9,9 +9,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using OnlineStore.Models.WebModels;
+using OnlineStore.Enums;
 
 namespace OnlineStore.Controllers
 {
+    
     public class ProductsController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -31,12 +33,14 @@ namespace OnlineStore.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = UserRole.Admin)]
         public ActionResult Create()
         {
             
             return View();
         }
 
+        [Authorize(Roles = UserRole.Admin)]
         [HttpPost]
         public ActionResult Create(ProductModel data, HttpPostedFileBase file)
         {
@@ -56,7 +60,7 @@ namespace OnlineStore.Controllers
                 PurchasePrice = data.PurchasePrice,
                 Description = data.Description,
                 SellPrice = data.SellPrice,
-                PImage = "~/Images/" + file.FileName,
+                PImage = "Images/" + file.FileName,
                 CreatedDate = data.CreatedDate
             });
             _unitOfWork.Save();

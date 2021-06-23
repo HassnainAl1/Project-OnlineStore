@@ -22,7 +22,7 @@ namespace OnlineStore.DAL
 
         public void Delete(int id)
         {
-            T data=dbEntity.Find(id);
+            T data = dbEntity.Find(id);
             dbEntity.Remove(data);
 
         }
@@ -56,9 +56,16 @@ namespace OnlineStore.DAL
             return dbEntity.Find(id);
         }
 
+        public T GetByIdWithOutTracking(int id)
+        {
+            var record = dbEntity.Find(id);
+            _context.Entry(record).State = EntityState.Detached;
+            return record;
+        }
+
         public void Insert(T model)
         {
-             dbEntity.Add(model) ;
+            dbEntity.Add(model);
         }
 
         public void Update(T model)

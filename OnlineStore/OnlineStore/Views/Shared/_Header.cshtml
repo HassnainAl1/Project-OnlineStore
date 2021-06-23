@@ -1,12 +1,13 @@
-﻿@{
-    var controller= this.ViewContext.RouteData.Values["controller"];
+﻿@using OnlineStore.Helpers
+@{
+    var controller = this.ViewContext.RouteData.Values["controller"];
     var controllerName = controller.ToString().ToLower();
 }
-
+<link href="~/Content/adminlte.min.css" rel="stylesheet" />
 <header class="">
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="~/"><h2>Sixteen <em>Clothing</em></h2></a>
+            <a class="navbar-brand" href="~/"><h2>Sony <em>Mart</em></h2></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -27,9 +28,61 @@
                     <li class="nav-item @(controllerName  == "ContactUs" ? "active":"")">
                         <a class="nav-link" href="contact.html">Contact Us</a>
                     </li>
+
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                      
+                        <li class="nav-item dropdown user-menu">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                <img src="@Url.Content("~/" + User.Identity.GetUserImage())" class="user-image img-circle elevation-2" alt="User Image">
+                                <span class="d-none d-md-inline">@User.Identity.Name</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                                <!-- User image -->
+                                <li class="user-header bg-primary">
+                                    <img src="@Url.Content("~/" + User.Identity.GetUserImage())" class="img-circle elevation-2" alt="User Image">
+                                    <p>
+                                        @User.Identity.Name - @User.Identity.GetUserRole()
+                                        <small>Member since @User.Identity.GetMemberSince()</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <li class="user-body">
+                                    <div class="row">
+                                        <div class="col-4 text-center">
+                                            <a href="#">Followers</a>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <a href="#">Sales</a>
+                                        </div>
+                                        <div class="col-4 text-center">
+                                            <a href="#">Friends</a>
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <a href="~/Account/Profile" class="btn btn-default btn-flat">Profile</a>
+                                    <a href="~/Account/LogOff" class="btn btn-default btn-flat float-right">Sign out</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li class="nav-item @(controllerName  == "Account" ? "active":"")">
+                            <a class="nav-link" href="~/Account/Login">Login</a>
+                        </li>
+                        <li class="nav-item @(controllerName  == "Account" ? "active":"")">
+                            <a class="nav-link" href="~/Account/Register">Register</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
     </nav>
-</header>
 
+</header>

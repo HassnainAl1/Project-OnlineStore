@@ -1,8 +1,10 @@
 ﻿@*@model IEnumerable<OnlineStore.Models.Product>*@
 @using PagedList.Mvc;
-
 @model PagedList.IPagedList<OnlineStore.Models.Product>
 
+@{
+    ViewBag.Title = "Products";
+}
 
 <div class="products">
     <div class="container">
@@ -25,7 +27,7 @@
                             <div class="col-lg-4 col-md-4 all des" style="position: absolute; left: 0%; top: 0px;">
                                 <div class="product-item">
                                     <a href="@Url.Action("Details","Products",new { id = item.Id})">
-                                        <img class="img-fluid img-thumbnail" style="height: 165px; " src="@(string.IsNullOrEmpty(item.PImage) ? Url.Content("~/Images/DPI.png") : Url.Content(item.PImage))" alt="">
+                                        <img class="img-fluid " style="height: 270px;width:220px " src="@(string.IsNullOrEmpty(item.PImage) ? Url.Content("~/Images/DPI.png") : Url.Content("~/" + item.PImage))" alt="">
                                     </a>
                                     <div class="down-content">
                                         <a href="@Url.Action("Details","Products",new { id = item.Id})">
@@ -33,11 +35,13 @@
                                         </a>
                                         <h6>$ @item.SellPrice</h6>
                                         <p>@item.Description</p>
-                                        <div>
-                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
+                                        @if (User.Identity.IsAuthenticated)
+                                        {<div>
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
 
-                                        </div>
+                                            </div>
+                                        }
                                         <span>Reviews (12)</span>
                                     </div>
                                 </div>
@@ -49,7 +53,8 @@
                 </div>
             </div>
             <div class="col-md-12">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }),new PagedListRenderOptions {
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }), new PagedListRenderOptions
+                {
 
                UlElementClasses = new string[] { "pages" }
 
