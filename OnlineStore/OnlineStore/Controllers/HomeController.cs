@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNet.Identity;
 using OnlineStore.DAL;
 using OnlineStore.DAL.Interfaces;
+using OnlineStore.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 
@@ -27,6 +29,7 @@ namespace OnlineStore.Controllers
         {
             var name = User.Identity.Name;
             var userId = User.Identity.GetUserId();
+            var userEmail = User.Identity.GetClaimValue(ClaimTypes.Email);
             DateTime currentDate = DateTime.Now;
             var today = currentDate;
             var lastWeek = currentDate.AddDays(-7);

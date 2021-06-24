@@ -6,14 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="filters">
-                    <ul>
-                        <li class="active" data-filter="*">All Products</li>
-                        <li data-filter=".des">Featured</li>
-                        <li data-filter=".dev">Flash Deals</li>
-                        <li data-filter=".gra">Last Minute</li>
-                    </ul>
-                </div>
+                @Html.Partial("_ProductFilter");
             </div>
             <div class="col-md-12">
                 <div class="filters-content">
@@ -30,8 +23,8 @@
                                         </a>
                                         <h6>$ @item.SellPrice</h6>
                                         <p>@item.Description</p>
-                                        @if (User.Identity.IsAuthenticated)
-                                        {    <div>
+                                        @if (User.IsInRole("Admin"))
+                                        {<div>
                                                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                                 @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
 

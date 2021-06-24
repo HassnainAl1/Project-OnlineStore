@@ -16,6 +16,5 @@ namespace OnlineStore.DAL.Interfaces
         void Insert(T model);
         void Delete(int id);
         void Update(T model);
-
     }
 }

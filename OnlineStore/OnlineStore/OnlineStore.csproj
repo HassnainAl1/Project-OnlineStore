@@ -427,7 +427,7 @@
     <Content Include="webfonts\fa-solid-900.woff" />
     <Content Include="webfonts\fa-solid-900.woff2" />
     <Content Include="Views\Account\Profile.cshtml" />
-    <Content Include="Views\Account\Profileccc.cshtml" />
+    <Content Include="Views\Shared\_ProductFilter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

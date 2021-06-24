@@ -1,4 +1,5 @@
 ﻿@using OnlineStore.Helpers
+@using System.Security.Claims
 @{
     var controller = this.ViewContext.RouteData.Values["controller"];
     var controllerName = controller.ToString().ToLower();
@@ -32,25 +33,27 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
-                      
+
                         <li class="nav-item dropdown user-menu">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                                <img src="@Url.Content("~/" + User.Identity.GetUserImage())" class="user-image img-circle elevation-2" alt="User Image">
+                                <img src="@Url.Content("~/" + User.Identity.GetClaimValue(ClaimTypes.Uri))" class="user-image img-circle elevation-2" alt="User Image">
                                 <span class="d-none d-md-inline">@User.Identity.Name</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                                 <!-- User image -->
                                 <li class="user-header bg-primary">
-                                    <img src="@Url.Content("~/" + User.Identity.GetUserImage())" class="img-circle elevation-2" alt="User Image">
+                                    <img src="@Url.Content("~/" + User.Identity.GetClaimValue(ClaimTypes.Uri))" class="img-circle elevation-2" alt="User Image">
                                     <p>
-                                        @User.Identity.Name - @User.Identity.GetUserRole()
-                                        <small>Member since @User.Identity.GetMemberSince()</small>
+                                        @User.Identity.Name  <br />
+                                        @User.Identity.GetClaimValue(ClaimTypes.Role)
+                                        
                                     </p>
                                 </li>
                                 <!-- Menu Body -->
                                 <li class="user-body">
                                     <div class="row">
-                                        <div class="col-4 text-center">
+                                        <small>Member since: @User.Identity.GetClaimValue(ClaimTypes.DateOfBirth)</small>
+                                        @*<div class="col-4 text-center">
                                             <a href="#">Followers</a>
                                         </div>
                                         <div class="col-4 text-center">
@@ -58,7 +61,7 @@
                                         </div>
                                         <div class="col-4 text-center">
                                             <a href="#">Friends</a>
-                                        </div>
+                                        </div>*@
                                     </div>
                                     <!-- /.row -->
                                 </li>
@@ -74,11 +77,12 @@
                     else
                     {
                         <li class="nav-item @(controllerName  == "Account" ? "active":"")">
-                            <a class="nav-link" href="~/Account/Login">Login</a>
-                        </li>
-                        <li class="nav-item @(controllerName  == "Account" ? "active":"")">
                             <a class="nav-link" href="~/Account/Register">Register</a>
                         </li>
+                        <li class="nav-item @(controllerName  == "Account" ? "active":"")">
+                            <a class="nav-link" href="~/Account/Login">Login</a>
+                        </li>
+
                     }
                 </ul>
             </div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using Microsoft.Owin.Security;
 using OnlineStore.DAL;
 using OnlineStore.DAL.Interfaces;
 using OnlineStore.Enums;
+using OnlineStore.Helpers;
 using OnlineStore.Models;
 
 namespace OnlineStore.Controllers
@@ -89,9 +91,13 @@ namespace OnlineStore.Controllers
                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "ASP.NET Identity", "http://www.w3.org/2001/XMLSchema#string"),
                new Claim(ClaimTypes.Name,user.FirstName + " " + user.LastName),
+               new Claim(ClaimTypes.Email,user.Email),
+               new Claim(ClaimTypes.Country,user.Country),
+               new Claim(ClaimTypes.MobilePhone,user.PhoneNumber),
                new Claim(ClaimTypes.Role, user.Role),
-               new Claim(ClaimTypes.DateOfBirth, user.CreatedDate.ToString("Y")),
-               new Claim(ClaimTypes.Uri,user.ProfilePicture)
+               new Claim(ClaimTypes.Uri,user.ProfilePicture),
+               new Claim(ClaimTypes.DateOfBirth, user.CreatedDate.ToString("Y"))
+
             }, DefaultAuthenticationTypes.ApplicationCookie);
             HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
             //Session["User_Photo"] = user.ProfilePicture;
@@ -170,14 +176,14 @@ namespace OnlineStore.Controllers
                     Country = model.Country,
                     PhoneNumber = model.PhoneNumber,
                     Password = model.Password,
-                    Role=model.Role,
-                    ProfilePicture=model.ProfilePicture,
+                    Role = model.Role,
+                    ProfilePicture = model.ProfilePicture,
                     CreatedDate = model.CreatedDate
                 };
                 _unitOfWork.UserRepo.Insert(user);
                 _unitOfWork.Save();
 
-                return Redirect("~/");
+                return RedirectToAction("Login", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -504,17 +510,50 @@ namespace OnlineStore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Profile(User model)
+        public ActionResult Profile(User model, HttpPostedFileBase ImageFile)
         {
 
-            //var data = _unitOfWork.UserRepo.GetByIdWithOutTracking(model.Id);
-            //model.CreatedDate = data.CreatedDate;
+            var data = _unitOfWork.UserRepo.GetByIdWithOutTracking(model.Id);
+            model.Password = data.Password;
             //model.ProfilePicture = data.ProfilePicture;
 
             _unitOfWork.UserRepo.Update(model);
             _unitOfWork.Save();
 
-            return RedirectToAction("Index", "Home");
+            User.Identity.AddUpdateClaim(ClaimTypes.Name, model.FirstName + " " + model.LastName);
+            User.Identity.AddUpdateClaim(ClaimTypes.Email, model.Email);
+            User.Identity.AddUpdateClaim(ClaimTypes.Country, model.Country);
+            User.Identity.AddUpdateClaim(ClaimTypes.MobilePhone, model.PhoneNumber);
+            
+
+            return RedirectToAction("Profile", "Account");
+        }
+
+        [HttpPost]
+        public ActionResult ProfilePicture(HttpPostedFileBase ImageFile)
+        {
+
+            var folderPath = Path.Combine(Server.MapPath("~/Images/Profile"));
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            var fileName = ImageFile.FileName.Length > 150 ? Guid.NewGuid().ToString() : ImageFile.FileName;
+
+            string path = Path.Combine(Server.MapPath("~/Images/Profile"), Path.GetFileName(fileName));
+            ImageFile.SaveAs(path);
+
+            var file = "Images/Profile/" + fileName;
+
+
+            var userId = Convert.ToInt32(User.Identity.GetUserId());
+            var data = _unitOfWork.UserRepo.GetByIdWithOutTracking(userId);
+            data.ProfilePicture = file;
+            _unitOfWork.UserRepo.Update(data);
+            _unitOfWork.Save();
+            User.Identity.AddUpdateClaim(ClaimTypes.Uri, file);
+            return RedirectToAction("Profile", "Account");
         }
     }
 }

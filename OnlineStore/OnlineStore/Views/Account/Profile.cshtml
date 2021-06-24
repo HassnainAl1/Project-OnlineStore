@@ -1,5 +1,6 @@
 ﻿@model OnlineStore.Models.User
 @using OnlineStore.Helpers
+@using System.Security.Claims
 
 <section class="content-header">
     <div class="container-fluid">
@@ -22,42 +23,45 @@
         <div class="row">
             <div class="col-md-3">
 
-                <!-- Profile Image -->
-                <div class="card card-primary card-outline">
-                    <div class="card-body box-profile">
-                        <div class="text-center">
-                            <img class="profile-user-img img-fluid img-circle" src="@Url.Content("~/" + User.Identity.GetUserImage())" alt="User profile picture">
+                @using (Html.BeginForm("ProfilePicture", "Account", FormMethod.Post,
+                            new { enctype = "multipart/form-data" }))
+                {
+                    <!-- Profile Image -->
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center" style="cursor: pointer">
+                                <input type="file" id="FileStorage" name="ImageFile" style="display:none" />
+                                <img class="profile-user-img img-fluid img-circle" src="@Url.Content("~/" + User.Identity.GetClaimValue(ClaimTypes.Uri))" alt="User profile picture">
+                            </div>
+
+                            <h3 class="profile-username text-center">@User.Identity.Name</h3>
+
+                            <p class="text-muted text-center">@User.Identity.GetClaimValue(ClaimTypes.Role)</p>
+
+                            <ul class="list-group list-group-unbordered mb-3">
+                                @*<li class="list-group-item">
+                                    <b>Followers</b> <a class="float-right">1,322</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Following</b> <a class="float-right">543</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Friends</b> <a class="float-right">13,287</a>
+                                </li>*@
+                            </ul>
+                            <button type="submit" class="btn btn-primary btn-block"><b>Update</b></button>
                         </div>
-
-                        <h3 class="profile-username text-center">@User.Identity.Name</h3>
-
-                        <p class="text-muted text-center">Software Engineer @*@User.Identity.GetUserRole()*@</p>
-
-                        <ul class="list-group list-group-unbordered mb-3">
-                            <li class="list-group-item">
-                                <b>Followers</b> <a class="float-right">1,322</a>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Following</b> <a class="float-right">543</a>
-                            </li>
-                            <li class="list-group-item">
-                                <b>Friends</b> <a class="float-right">13,287</a>
-                            </li>
-                        </ul>
-
-                        <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
-                
+                    <!-- /.card -->
+                }
             </div>
             <!-- /.col -->
             <div class="col-md-9">
                 <div class="card">
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
-                             <li class="nav-item"><a style="color:red" class="nav-link" href="#settings" data-toggle="tab">Edit Profile</a></li>
+                            <li class="nav-item"><a style="color:red" class="nav-link" href="#settings" data-toggle="tab">Edit Profile</a></li>
                         </ul>
                     </div><!-- /.card-header -->
                     <div class="card-body">
@@ -65,96 +69,85 @@
 
                             <!-- /.tab-pane -->
 
-                            @using (Html.BeginForm())
-                            {
-                                @Html.AntiForgeryToken()
 
-                                @Html.AntiForgeryToken()
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                                @Html.HiddenFor(x => x.Id)
-                                @Html.HiddenFor(x => x.CreatedDate)
-                                @Html.HiddenFor(x => x.ProfilePicture)
-                                @Html.HiddenFor(x => x.Role)
-
-                             <div class="tab-pane active" id="activity">
+                            <div class="tab-pane active" id="activity">
 
                                 <form class="form-horizontal">
                                     <div class="form-group row">
                                     </div>
                                 </form>
-                             </div>
-                                    <div class="tab-pane" id="settings">
-
-                                        <form class="form-horizontal">
-                                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                                            <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">First Name</label>
-                                                <div class="col-sm-10">
-                                                    @Html.TextBoxFor(u => u.FirstName, new { @class = "form-control", @placeholder = "First Name" })
-                                                </div>
-                                            </div>
-
-                                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                                            <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">Last Name</label>
-                                                <div class="col-sm-10">
-                                                    @Html.TextBoxFor(u => u.LastName, new { @class = "form-control", @placeholder = "Last Name" })
-                                                </div>
-                                            </div>
-
-                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                                            <div class="form-group row">
-                                                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                                                <div class="col-sm-10">
-                                                    @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Email" })
-                                                </div>
-                                            </div>
-
-                                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
-                                            <div class="form-group row">
-                                                <label for="inputName2" class="col-sm-2 col-form-label">Country</label>
-                                                <div class="col-sm-10">
-                                                    @Html.TextBoxFor(u => u.Country, new { @class = "form-control", @placeholder = "Country" })
-                                                </div>
-                                            </div>
-
-                                            @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
-                                            <div class="form-group row">
-                                                <label for="inputName2" class="col-sm-2 col-form-label">Number</label>
-                                                <div class="col-sm-10">
-                                                    @Html.TextBoxFor(u => u.PhoneNumber, new { @class = "form-control", @placeholder = "Country" })
-                                                </div>
-                                            </div>
-
-                                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                                            <div class="form-group row">
-                                                <label for="inputName2" class="col-sm-2 col-form-label">Password</label>
-                                                <div class="col-sm-10">
-                                                    @Html.TextBoxFor(u => u.Password, new { @class = "form-control", @placeholder = "Country" })
-                                                </div>
-                                            </div>
-
-
-                                            @*<div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                </label>
                             </div>
-                        </div>
-                    </div>*@
-                                            <div class="form-group row">
-                                                <div class="offset-sm-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-danger">Update</button>
-                                                </div>
-                                            </div>
-                                        </form>
+                            <div class="tab-pane" id="settings">
+
+                                @using (Html.BeginForm("Profile", "Account", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    @Html.HiddenFor(x => x.Id)
+                                    @Html.HiddenFor(x => x.CreatedDate)
+                                    @Html.HiddenFor(x => x.ProfilePicture)
+                                    @Html.HiddenFor(x => x.Role)
+                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label">First Name</label>
+                                        <div class="col-sm-10">
+                                            @Html.TextBoxFor(u => u.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+                                        </div>
                                     </div>
-                                    <!-- /.tab-pane -->
-                                    }
+
+                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label">Last Name</label>
+                                        <div class="col-sm-10">
+                                            @Html.TextBoxFor(u => u.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+                                        </div>
+                                    </div>
+
+                                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    <div class="form-group row">
+                                        <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                        <div class="col-sm-10">
+                                            @Html.TextBoxFor(u => u.Email, new { @class = "form-control", @placeholder = "Email" })
+                                        </div>
+                                    </div>
+
+                                    @Html.ValidationMessageFor(model => model.Country, "", new { @class = "text-danger" })
+                                    <div class="form-group row">
+                                        <label for="inputName2" class="col-sm-2 col-form-label">Country</label>
+                                        <div class="col-sm-10">
+                                            @Html.TextBoxFor(u => u.Country, new { @class = "form-control", @placeholder = "Country" })
+                                        </div>
+                                    </div>
+
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
+                                    <div class="form-group row">
+                                        <label for="inputName2" class="col-sm-2 col-form-label">Number</label>
+                                        <div class="col-sm-10">
+                                            @Html.TextBoxFor(u => u.PhoneNumber, new { @class = "form-control", @placeholder = "Country" })
+                                        </div>
+                                    </div>
+
+                                    @*<div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="submit" class="btn btn-danger">Update</button>
+                                        </div>
+                                    </div>
+                                }
                             </div>
+                            <!-- /.tab-pane -->
+                        </div>
                         <!-- /.tab-content -->
                     </div><!-- /.card-body -->
                 </div>
@@ -165,4 +158,24 @@
         <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".profile-user-img").on("click", function () {
+                $("#FileStorage").trigger("click");
+            });
 
+            $("#FileStorage").on("change", function () {
+                var file = this.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        $(".profile-user-img").attr("src", reader.result);
+                    }
+                    reader.readAsDataURL(file);
+                }
+            })
+        });
+    </script>
+    
+    } 
