@@ -30,17 +30,16 @@ namespace OnlineStore.Controllers
             var name = User.Identity.Name;
             var userId = User.Identity.GetUserId();
             var userEmail = User.Identity.GetClaimValue(ClaimTypes.Email);
-            DateTime currentDate = DateTime.Now;
-            var today = currentDate;
-            var lastWeek = currentDate.AddDays(-7);
-            //var thisWeekStart = currentDate.AddDays(-(int)currentDate.DayOfWeek);
-            //var thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
-            //var lastWeekStart = thisWeekStart.AddDays(-7);
-            //var lastWeekEnd = thisWeekStart.AddSeconds(-1);
 
+            //DateTime currentDate = DateTime.Now;
+            //var today = currentDate;
+            //var lastWeek = currentDate.AddDays(-7);
+            //var latestProducts = _unitOfWork.ProductRepo.Get(p => p.CreatedDate >= lastWeek && p.CreatedDate <= today, p => p.OrderByDescending(x => x.CreatedDate));
+            //return View(latestProducts);
 
-            var latestProducts = _unitOfWork.ProductRepo.Get(p => p.CreatedDate >= lastWeek && p.CreatedDate <= today, p => p.OrderByDescending(x => x.CreatedDate));
-            return View(latestProducts);
+            return View(_unitOfWork.ProductRepo.Get().OrderByDescending(x => x.CreatedDate).Take(5).ToList());
+
+          
         }
 
         public ActionResult About()
