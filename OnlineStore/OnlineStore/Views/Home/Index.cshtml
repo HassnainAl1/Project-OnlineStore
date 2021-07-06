@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<OnlineStore.Models.Product>
-@{ 
+@{
     ViewBag.Title = "Products";
 }
 <div class="products">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                @Html.Partial("_ProductFilter");
+                @Html.Partial("_ProductFilter")
             </div>
             <div class="col-md-12">
                 <div class="filters-content">
@@ -16,7 +16,8 @@
                             <div class="col-lg-4 col-md-4 all des" style="position: absolute; left: 0%; top: 0px;">
                                 <div class="product-item">
                                     <a href="@Url.Action("Details","Products",new { id = item.Id})">
-                                    <img class="img-fluid " style="height: 270px;width:220px " src="@(string.IsNullOrEmpty(item.PImage) ? Url.Content("~/Images/DPI.png") : Url.Content("~/" + item.PImage))" alt=""></a>
+                                        <img class="img-fluid " style="height: 270px;width:220px " src="@(string.IsNullOrEmpty(item.PImage) ? Url.Content("~/Images/DPI.png") : Url.Content("~/" + item.PImage))" alt="">
+                                    </a>
                                     <div class="down-content">
                                         <a href="@Url.Action("Details","Products",new { id = item.Id})">
                                             <h4 style="color:forestgreen;cursor:pointer">@item.PName</h4>
@@ -30,7 +31,7 @@
 
                                             </div>
                                         }
-                                    <input type="button" name="button" value="Add to card" style="lighting-color:red"  />
+                                        <input type="button" value="Add to cart " class="cartbtn" data-id="@item.Id" />
                                         <span>Reviews (12)</span>
                                     </div>
                                 </div>
@@ -45,4 +46,19 @@
         </div>
     </div>
 </div>
+@section scripts
+{
+    <script>
+
+        //var products = [];
+        //$(".cartbtn").click(function () {
+        //    var productId = $(this).attr('data-id');
+        //    products.push(productId);
+        //    $.cookie('CartProducts', products.join('-'), { expires: 10, path: '/' });
+        //    alert("added");
+        //})
+
+    </script>
+}
+
 

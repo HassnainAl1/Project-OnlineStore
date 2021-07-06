@@ -10,54 +10,68 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                @Html.Partial("_ProductFilter");
+                @Html.Partial("_ProductFilter")
             </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="filters-content">
-                    <div class="row grid">
-                        @foreach (var item in Model)
-                        {
-                            <div class="col-lg-4 col-md-4 all des" style="position: absolute; left: 0%; top: 0px;">
-                                <div class="product-item">
-                                    <a href="@Url.Action("Details","Products",new { id = item.Id})">
-                                        <img class="img-fluid " style="height: 270px;width:220px " src="@(string.IsNullOrEmpty(item.PImage) ? Url.Content("~/Images/DPI.png") : Url.Content("~/" + item.PImage))" alt="">
-                                    </a>
-                                    <div class="down-content">
-                                        <a href="@Url.Action("Details","Products",new { id = item.Id})">
-                                            <h4 style="color:forestgreen;cursor:pointer">@item.PName</h4>
-                                        </a>
-                                        <h6>$ @item.SellPrice</h6>
-                                        <p>@item.Description</p>
-                                        @if (User.IsInRole("Admin"))
-                                        {<div>
-                                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
-
-                                            </div>
-                                        }
-                                    <a href="#"><input type="button" name="button" value="Add to card" /></a>
-                                        <span>Reviews (12)</span>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }), new PagedListRenderOptions
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="filters-content">
+            <div class="row grid">
+                @foreach (var item in Model)
                 {
+                    <div class="col-lg-4 col-md-4 all des" style="position: absolute; left: 0%; top: 0px;">
+                        <div class="product-item">
+                            <a href="@Url.Action("Details","Products",new { id = item.Id})">
+                                <img class="img-fluid " style="height: 270px;width:220px " src="@(string.IsNullOrEmpty(item.PImage) ? Url.Content("~/Images/DPI.png") : Url.Content("~/" + item.PImage))" alt="">
+                            </a>
+                            <div class="down-content">
+                                <a href="@Url.Action("Details","Products",new { id = item.Id})">
+                                    <h4 style="color:forestgreen;cursor:pointer">@item.PName</h4>
+                                </a>
+                                <h6>$ @item.SellPrice</h6>
+                                <p>@item.Description</p>
+                                @if (User.IsInRole("Admin"))
+                                {<div>
+                                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                        @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
 
-               UlElementClasses = new string[] { "pages" }
+                                    </div>
+                                }
+                                <input type="button" value="Add to cart " class="cartbtn" data-id="@item.Id" />
+                                <span>Reviews (12)</span>
+                            </div>
+                        </div>
+                    </div>
+                }
 
-           })
-                Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Products
 
             </div>
         </div>
     </div>
+    <div class="col-md-12">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize }), new PagedListRenderOptions
+        {
+
+       UlElementClasses = new string[] { "pages" }
+
+   })
+        Showing @Model.FirstItemOnPage to @Model.LastItemOnPage of @Model.TotalItemCount Products
+
+    </div>
 </div>
+    </div>
+</div>
+@section scripts
+{
+    @*<script>
+
+        var products = [];
+        $(".cartbtn").click(function () {
+            var productId = $(this).attr('data-id');
+            products.push(productId);
+            $.cookie('CartProducts', products.join('-'), { expires: 10, path: '/' });
+            alert("added");
+        })
+
+    </script>*@
+}

@@ -1,6 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
+@*@using OnlineStore.Models.WebModels
+@model CartViewModels*@
 <head>
 
     <meta charset="utf-8">
@@ -28,7 +29,7 @@
     </div>
     <!-- ***** Preloader End ***** -->
     <!-- Header -->
-    @Html.Partial("_Header");
+    @Html.Partial("_Header")
     <!-- Page Content -->
     <!-- Banner Starts Here -->
     <div class="banner header-text">
@@ -73,8 +74,29 @@
                 t.style.color = '#fff';
             }
         }
-    </script>
 
+    </script>
+    <script>
+        $.ajax({
+            url: "/products/checkout",
+            method :"GET",
+            success: function (response) {
+                $(".cart-S").empty();
+                $(".cart-S").append(response);
+            }
+        });
+        $(".cartbtn").click(function () {
+            var productId = $(this).attr('data-id');
+            var oldProducts = $.cookie('CartProducts');
+            if (typeof oldProducts === "undefined") {
+                oldProducts = "";
+            }
+            oldProducts = oldProducts + "-" + productId;
+            $.cookie('CartProducts', oldProducts, { expires: 10, path: '/' });
+            alert("added");
+        })
+
+    </script>
 </body>
 
 </html>

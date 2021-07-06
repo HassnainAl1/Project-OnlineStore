@@ -11,8 +11,7 @@ namespace OnlineStore
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/vendor/jquery/jquery.min.js",
                         "~/vendor/bootstrap/js/bootstrap.bundle.min.js",
-                        "~/vendor/jquery/jquery.min.js",
-                        "~/vendor/bootstrap/js/bootstrap.bundle.min.js",
+                        "~/vendor/jquery/jquery.cookie.js",
                         "~/assets/js/custom.js",
                         "~/assets/js/owl.js",
                         "~/assets/js/slick.js",
@@ -33,6 +32,7 @@ namespace OnlineStore
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/vendor/bootstrap/css/bootstrap.min.css",
                       "~/assets/css/fontawesome.css",
+                      "~/assets/css/all.min.css",
                       "~/assets/css/templatemo-sixteen.css",
                       "~/assets/css/owl.css"));
         }

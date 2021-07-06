@@ -1,0 +1,42 @@
+﻿@using OnlineStore.Models.WebModels
+
+@model CartViewModels
+
+
+<div class="dropdown">
+    <a class="fas fa-shopping-cart @*dropdown-toggle*@" data-toggle="dropdown" style="color: gold; margin-top: 15px; font-size: 25px; !important " id="btnid"></a>
+
+    <ul class="dropdown-menu dropdown-menu-right" id="cartlist">
+        @if (Model != null)
+        {
+            if (Model.UserCartProducts != null && Model.UserCartProducts.Count > 0)
+            {
+
+                <div>
+                    @foreach (var product in Model.UserCartProducts)
+                    {
+                        var productQuantity = Model.CartProductIDS.Where(productid => productid == product.Id).Count();
+                    <div>
+                        <img src="@Url.Content("~/" + @product.PImage)" class="" style="width:50px;height:50px" alt="User Image">
+
+                        Name: @product.PName -  Price: @product.SellPrice - Quantity:@productQuantity - Total Price = @(product.SellPrice* productQuantity)
+                    </div>
+                    }
+                </div>
+                <div>
+                    Total Bill: @Model.UserCartProducts.Sum(x => x.SellPrice * Model.CartProductIDS.Where(productid => productid == x.Id).Count())
+                </div>
+            }
+            else
+            {
+                <div>
+                    No Product Found
+                </div>
+            }
+        }
+
+    </ul>
+
+</div>
+<span class="icon-button__badge">@Model.UserCartProducts.Count</span>
+

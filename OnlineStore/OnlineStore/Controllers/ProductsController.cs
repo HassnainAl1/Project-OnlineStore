@@ -97,5 +97,26 @@ namespace OnlineStore.Controllers
             return RedirectToAction("Index");
         }
 
+
+        public ActionResult Checkout()
+        {
+            CartViewModels model =new CartViewModels();
+
+            var CartProductsCookie = Request.Cookies["CartProducts"];
+
+            if (CartProductsCookie !=null)
+            {
+                model.CartProductIDS = CartProductsCookie.Value.Split('-').Select(x=>int.Parse(x)).ToList();
+                model.UserCartProducts = GetProductsByIds(model.CartProductIDS);
+            }
+            return PartialView(model);
+        }
+
+        public List<Product> GetProductsByIds(List<int> IDs)
+        {
+            return _unitOfWork.ProductRepo.Get(product => IDs.Contains(product.Id)).ToList();
+        }
+
+
     }
 }
