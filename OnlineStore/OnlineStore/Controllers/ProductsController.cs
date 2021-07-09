@@ -106,7 +106,7 @@ namespace OnlineStore.Controllers
 
             if (CartProductsCookie !=null)
             {
-                model.CartProductIDS = CartProductsCookie.Value.Split('-').Select(x=>int.Parse(x)).ToList();
+                model.CartProductIDS = CartProductsCookie.Value.Split('-').Where(x=>x !="").Select(x=>int.Parse(x)).ToList();
                 model.UserCartProducts = GetProductsByIds(model.CartProductIDS);
             }
             return PartialView(model);

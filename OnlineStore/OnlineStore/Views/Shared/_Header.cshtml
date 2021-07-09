@@ -37,11 +37,87 @@
 
     #cartlist {
         margin-right: 10px;
+        cursor:default !important;
     }
     .dropdown-menu {
-        width:600px !important;
-        height: auto !important;
+        
+        overflow: scroll !important;
+        width:580px;
+        height: 500px !important;
     }
+
+
+    .quantity {
+        display: inline-block;
+    }
+
+        .quantity .input-text.qty {
+            width: 35px;
+            height: 41px;
+            padding: 0 5px;
+            text-align: center;
+            background-color: white;
+            border: 1px solid #2196F3;
+            user-select: none;
+        }
+
+        .quantity.buttons_added {
+            text-align: left;
+            position: relative;
+            white-space: nowrap;
+            vertical-align: top;
+            border-color: #2196F3;
+        }
+
+            .quantity.buttons_added input {
+                display: inline-block;
+                margin: 0;
+                vertical-align: top;
+                box-shadow: none;
+               
+            }
+
+            .quantity.buttons_added .minus {
+                padding: 7px 10px 8px;
+                height: 41px;
+                background: #f44336;
+                border: 1px solid #2196F3;
+                cursor: pointer !important;
+            }
+            .quantity.buttons_added .plus {
+                padding: 7px 10px 8px;
+                height: 41px;
+                background-color: #04AA6D;
+                border: 1px solid #2196F3;
+                cursor: pointer !important;
+            }
+
+            .quantity.buttons_added .minus {
+                border-right: 0;
+            }
+
+            .quantity.buttons_added .plus {
+                border-left: 0;
+            }
+
+            .quantity.buttons_added .minus:hover {
+                background: #f44336;
+            }
+            .quantity.buttons_added .plus:hover {
+                background-color: #04AA6D;
+            }
+
+        .quantity input::-webkit-outer-spin-button,
+        .quantity input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            margin: 0;
+        }
+
+        .quantity.buttons_added .minus:focus,
+        .quantity.buttons_added .plus:focus {
+            outline: none;
+        }
 
 </style>
 
