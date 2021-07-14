@@ -18,19 +18,19 @@
                         <table class="table table-bordered">
                             <tr>
                                 <th>
-                                    Image
+                                    @Resources.Image
                                 </th>
                                 <th>
-                                    Name
+                                    @Resources.Name
                                 </th>
                                 <th>
-                                    Price
+                                    @Resources.Price
                                 </th>
                                 <th>
-                                    Quantity
+                                    @Resources.Quantity
                                 </th>
                                 <th>
-                                    Total
+                                    @Resources.Total
                                 </th>
                             </tr>
                             <tbody>
@@ -57,7 +57,7 @@
                     </div>
 
                     <div class="Total_Bill" >
-                        <b style="font-size: 18px; padding: 0.3em; ">Total Bill: </b><span id="Bill" style="font-size: 18px;"> @Model.UserCartProducts.Sum(x => x.SellPrice * Model.CartProductIDS.Where(productid => productid == x.Id).Count())</span><span><button id="Checkout-P-Btn" class="cartbtn" style="margin-left: 205px;">Proceed To Checkout</button></span>
+                        <b style="font-size: 18px; padding: 0.3em; ">@Resources.Total_Bill: </b><span id="Bill" style="font-size: 18px;"> @Model.UserCartProducts.Sum(x => x.SellPrice * Model.CartProductIDS.Where(productid => productid == x.Id).Count())</span><span><button id="Checkout-P-Btn" class="cartbtn" style="margin-left: 205px;">@Resources.Procedure_To_Checkout</button></span>
                     </div>
                 }
                 @*else

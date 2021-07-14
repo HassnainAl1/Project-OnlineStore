@@ -1,9 +1,9 @@
 ﻿<div class="filters">
     <ul>
-        <li class="active" data-filter="*">All Products</li>
-        <li data-filter=".des">Featured</li>
-        <li data-filter=".dev">Flash Deals</li>
-        <li data-filter=".gra">Last Minute</li>
+        <li class="active" data-filter="*">@Resources.ALL_PRODUCTS</li>
+        <li data-filter=".des">@Resources.FEATURED</li>
+        <li data-filter=".dev">@Resources.FLASH_DEALS</li>
+        <li data-filter=".gra">@Resources.LAST_MINUTE</li>
         @if (User.IsInRole("Admin")) {
         <li>@Html.ActionLink("Add new product", "Create","Products")</li>
         }

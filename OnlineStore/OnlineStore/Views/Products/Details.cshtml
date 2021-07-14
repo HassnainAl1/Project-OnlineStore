@@ -8,10 +8,10 @@
             <div class="col-md-12">
                 <div class="filters">
                     <ul>
-                        <li class="active" data-filter="*">All Products</li>
-                        <li data-filter=".des">Featured</li>
-                        <li data-filter=".dev">Flash Deals</li>
-                        <li data-filter=".gra">Last Minute</li>
+                        <li class="active" data-filter="*">@Resources.ALL_PRODUCTS</li>
+                        <li data-filter=".des">@Resources.FEATURED</li>
+                        <li data-filter=".dev">@Resources.FLASH_DEALS</li>
+                        <li data-filter=".gra">@Resources.LAST_MINUTE</li>
                     </ul>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                                             @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
 
                                         </div>
-                                        <span>Reviews (12)</span>
+                                        <span>@Resources.Reviews (12)</span>
                                     </div>
                                 </div>
                             </div>

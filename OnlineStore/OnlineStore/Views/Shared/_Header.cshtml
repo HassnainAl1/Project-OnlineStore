@@ -1,8 +1,7 @@
 ﻿@using OnlineStore.Helpers
 @using System.Security.Claims
 @using OnlineStore.Models.WebModels
-@*@using OnlineStore.Models.WebModels
-    @model CartViewModels*@
+@using System.Threading
 
 
 @{
@@ -40,7 +39,7 @@
         cursor: default !important;
     }
 
-    .dropdown-menu {
+    .cart-S > .dropdown > .dropdown-menu {
         overflow: scroll !important;
         width: 580px;
         height: 500px !important;
@@ -130,34 +129,33 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item @(controllerName  == "home" ? "active":"")">
+                    <li class="nav-item @(controllerName == "home" ? "active" : "")">
                         <a class="nav-link" href="~/">
-                            Home
+                            @Resources.Home
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
-                    <li class="nav-item @(controllerName  == "products" ? "active":"")">
-                        <a class="nav-link" href="~/products">Our Products</a>
+                    <li class="nav-item @(controllerName == "products" ? "active" : "")">
+                        <a class="nav-link" href="~/products">@Resources.Our_Products</a>
                     </li>
-                    <li class="nav-item @(controllerName  == "AboutUs" ? "active":"")">
-                        <a class="nav-link" href="about.html">About Us</a>
+                    <li class="nav-item @(controllerName == "AboutUs" ? "active" : "")">
+                        <a class="nav-link" href="about.html">@Resources.About_Us</a>
                     </li>
-                    <li class="nav-item @(controllerName  == "ContactUs" ? "active":"")">
-                        <a class="nav-link" href="contact.html">Contact Us</a>
+                    <li class="nav-item @(controllerName == "ContactUs" ? "active" : "")">
+                        <a class="nav-link" href="contact.html">@Resources.Contact_Us</a>
                     </li>
-
 
                     @if (User.Identity.IsAuthenticated)
                     {
 
                         //CartViewModels products = (CartViewModels)Session["Products"];
 
-                        <li class="nav-item dropdown user-menu">
+                        <li class="nav-item user-menu" @*style="position:relative"*@>
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                                 <img src="@Url.Content("~/" + User.Identity.GetClaimValue(ClaimTypes.Uri))" class="user-image img-circle elevation-2" alt="User Image">
                                 <span class="d-none d-md-inline">@User.Identity.Name</span>
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <ul class="dropdown-menu" style="position: absolute; top: 83px; left: 800px; ">
                                 <!-- User image -->
                                 <li class="user-header bg-primary">
                                     <img src="@Url.Content("~/" + User.Identity.GetClaimValue(ClaimTypes.Uri))" class="img-circle elevation-2" alt="User Image">
@@ -170,7 +168,7 @@
                                 <!-- Menu Body -->
                                 <li class="user-body">
                                     <div class="row">
-                                        <small>Member since: @User.Identity.GetClaimValue(ClaimTypes.DateOfBirth)</small>
+                                        <small>@Resources.Member_since: @User.Identity.GetClaimValue(ClaimTypes.DateOfBirth)</small>
                                         @*<div class="col-4 text-center">
                                                 <a href="#">Followers</a>
                                             </div>
@@ -185,8 +183,8 @@
                                 </li>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
-                                    <a href="~/Account/Profile" class="btn btn-default btn-flat">Profile</a>
-                                    <a href="~/Account/LogOff" class="btn btn-default btn-flat float-right">Sign out</a>
+                                    <a href="~/Account/Profile" class="btn btn-default btn-flat">@Resources.Profile</a>
+                                    <a href="~/Account/LogOff" class="btn btn-default btn-flat float-right">@Resources.Sign_out</a>
                                 </li>
                             </ul>
                         </li>
@@ -194,20 +192,55 @@
                     }
                     else
                     {
-                        <li class="nav-item @(controllerName  == "Account" ? "active":"")">
-                            <a class="nav-link" href="~/Account/Register">Register</a>
+                        <li class="nav-item @(controllerName == "Account" ? "active" : "")">
+                            <a class="nav-link" href="~/Account/Register">@Resources.Register</a>
                         </li>
-                        <li class="nav-item @(controllerName  == "Account" ? "active":"")">
-                            <a class="nav-link" href="~/Account/Login">Login</a>
+                        <li class="nav-item @(controllerName == "Account" ? "active" : "")">
+                            <a class="nav-link" href="~/Account/Login">@Resources.Login</a>
                         </li>
 
                     }
-                    <li class="nav-item cart-S">
+
+                    <li class="nav-item cart-S @*nav-link*@">
 
                     </li>
 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="true">
+                            @{
+                                var name = Thread.CurrentThread.CurrentCulture.Name;
+                                var icon = string.Empty;
+                                var cultureName = string.Empty;
+                                if (name == "en-US")
+                                {
+                                    icon = "flag-icon-us";
+                                    cultureName = "English";
+                                }
+                                else if (name == "ar-SA")
+                                {
+                                    icon = "flag-icon-sa";
+                                    cultureName = "عربى";
+                                }
+                            }
+                            <i class="flag-icon @icon"></i> @cultureName
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right p-0">
+                            <a href="@Url.Action("SetCulture", "Home", new { culture = "en-US"})" class="dropdown-item @(name == "en-US" ? "active" : "")">
+                                <i class="flag-icon flag-icon-us mr-2"></i> English
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="flag-icon flag-icon-de mr-2"></i> German
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i class="flag-icon flag-icon-es mr-2"></i> Spanish
+                            </a>
+                            <a href="@Url.Action("SetCulture", "Home", new { culture = "ar-SA"})" class="dropdown-item @(name == "ar-SA" ? "active" : "")">
+                                <i class="flag-icon flag-icon-sa mr-2"></i> عربى
+                            </a>
+                        </div>
 
-
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>

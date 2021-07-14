@@ -14,7 +14,7 @@ using OnlineStore.Enums;
 namespace OnlineStore.Controllers
 {
     
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
 

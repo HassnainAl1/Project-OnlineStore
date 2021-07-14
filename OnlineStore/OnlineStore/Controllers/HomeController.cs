@@ -13,7 +13,7 @@ using System.Web.Mvc;
 namespace OnlineStore.Controllers
 {
     
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -23,7 +23,20 @@ namespace OnlineStore.Controllers
             _unitOfWork = new UnitOfWork();
         }
 
-
+        public ActionResult SetCulture(string culture)
+        {
+            HttpCookie cookie = Request.Cookies["_culture"];
+            if (cookie != null)
+                cookie.Value = culture;   // update cookie value
+            else
+            {
+                cookie = new HttpCookie("_culture");
+                cookie.Value = culture;
+                cookie.Expires = DateTime.Now.AddYears(1);
+            }
+            Response.Cookies.Add(cookie);
+            return RedirectToAction("Index");
+        }
 
         public ActionResult Index()
         {

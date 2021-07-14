@@ -18,7 +18,7 @@
 
 @*@Html.Partial("_Header")*@
 
-<h1>CheckoutProcedure</h1>
+<h1>@Resources.CheckoutProcedure</h1>
 @{
 
     if (Model.UserCartProducts != null && Model.UserCartProducts.Count > 0)
@@ -28,19 +28,19 @@
             <table class="table table-bordered">
                 <tr>
                     <th>
-                        Image
+                        @Resources.Image
                     </th>
                     <th>
-                        Name
+                        @Resources.Name
                     </th>
                     <th>
-                        Price
+                        @Resources.Price
                     </th>
                     <th>
-                        Quantity
+                        @Resources.Quantity
                     </th>
                     <th>
-                        Total
+                        @Resources.Total
                     </th>
                 </tr>
                 <tbody>
@@ -68,11 +68,11 @@
         </div>
 
         <div class="Total_Bill">
-            <b style="font-size: 18px; padding: 0.3em; ">Total Bill: </b><span id="Bill" style="font-size: 18px;"> @Model.UserCartProducts.Sum(x => x.SellPrice * Model.CartProductIDS.Where(productid => productid == x.Id).Count())</span>
+            <b style="font-size: 18px; padding: 0.3em; ">@Resources.Total_Bill: </b><span id="Bill" style="font-size: 18px;"> @Model.UserCartProducts.Sum(x => x.SellPrice * Model.CartProductIDS.Where(productid => productid == x.Id).Count())</span>
         </div>
 
         <div>
-            <button id="Pay-P-Btn" class="Paytbtn" style="margin-left: 205px;">Pay Now</button>
+            <button id="Pay-P-Btn" class="Paytbtn" style="margin-left: 205px;">@Resources.Pay_Now</button>
         </div>
 
     }
@@ -80,7 +80,6 @@
 
     else
     {
-        <div>  empty </div>
 
     }
 }

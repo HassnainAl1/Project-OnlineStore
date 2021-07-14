@@ -12,6 +12,7 @@ namespace OnlineStore
                         "~/vendor/jquery/jquery.min.js",
                         "~/vendor/bootstrap/js/bootstrap.bundle.min.js",
                         "~/vendor/jquery/jquery.cookie.js",
+                        "~/vendor/bootstrap/js/bootstrap-select.min.js",
                         "~/assets/js/custom.js",
                         "~/assets/js/owl.js",
                         "~/assets/js/slick.js",
@@ -31,6 +32,8 @@ namespace OnlineStore
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/vendor/bootstrap/css/bootstrap.min.css",
+                      "~/vendor/bootstrap/css/bootstrap-select.min.css",
+                      "~/vendor/bootstrap/css/flag-icon.min.css",
                       "~/assets/css/fontawesome.css",
                       "~/assets/css/all.min.css",
                       "~/assets/css/templatemo-sixteen.css",

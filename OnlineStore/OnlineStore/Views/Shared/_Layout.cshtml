@@ -12,6 +12,10 @@
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/js/bootstrap-select.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.2/css/bootstrap-select.min.css" rel="stylesheet" />*@
+
+
     <title>Sony Mart | @ViewBag.Title</title>
 
     @Styles.Render("~/Content/css")
@@ -38,20 +42,20 @@
         <div class="owl-banner owl-carousel">
             <div class="banner-item-01">
                 <div class="text-content">
-                    <h4>Best Offer</h4>
-                    <h2>New Arrivals On Sale</h2>
+                    <h4>@Resources.BEST_OFFER</h4>
+                    <h2>@Resources.NEW_ARRIVALS_ON_SALE</h2>
                 </div>
             </div>
             <div class="banner-item-02">
                 <div class="text-content">
-                    <h4>Flash Deals</h4>
-                    <h2>Get your best products</h2>
+                    <h4>@Resources.FLASH_DEALS</h4>
+                    <h2>@Resources.GET_YOUR_BEST_PRODUCTS</h2>
                 </div>
             </div>
             <div class="banner-item-03">
                 <div class="text-content">
-                    <h4>Last Minute</h4>
-                    <h2>Grab last minute deals</h2>
+                    <h4>@Resources.LAST_MINUTE</h4>
+                    <h2>@Resources.GRAB_LAST_MINUTE_DEALS</h2>
                 </div>
             </div>
         </div>
@@ -66,7 +70,7 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
-    @{ 
+    @{
         var currentRole = User.Identity.GetClaimValue(ClaimTypes.Role);
     }
     <script language="text/Javascript">
@@ -127,7 +131,7 @@
                             $("#Bill").text(TnPrice);
 
                             if (toTalBill == 0) {
-                                $(".dropdown-menu").hide();
+                                $(".cart-S > .dropdown > .dropdown-menu").hide();
                             }
 
 
@@ -176,7 +180,7 @@
                                     var val = $(this).siblings(".qty").val();
 
                                     var productId = $(this).siblings(".qty").attr('data-id');
-                                    updateCookie(productId);
+                                    RemoveCookie(productId);
 
                                     var totalP = $($(this).parent().parent().siblings()[3]).find(".Total-Price__View").text();
 
@@ -227,6 +231,26 @@
             $.cookie('CartProducts', oldProducts1, { expires: 10, path: '/' });
         }
 
+        function RemoveCookie(productId) {
+            
+            var quantity = "1";
+            quantity = Number(quantity);
+            var oldProducts = $.cookie('CartProducts');
+            oldProducts = oldProducts.split("-");
+            var newId = [];
+            $.each(oldProducts, function (index, value) {
+                if (Number(value) > 0) {
+                    if (Number(productId) !== Number(value) && $.inArray(value, newId) === -1) {
+                        newId.push(value);
+                    }
+                }
+            });
+
+            newId = newId.join("-");
+            $.cookie('CartProducts', newId, { expires: 10, path: '/' });
+        }
+
+
         $(".cartbtn").click(function () {
             var productId = $(this).attr('data-id');
             updateCookie(productId);
@@ -242,13 +266,16 @@
             getProducts();
         });
 
-        $(document).on('click', '.dropdown-menu', function (e) {
+        $(document).on('click', 'cart-S > .dropdown', function (e) {
             e.stopPropagation();
         });
 
-
+        $(function () {
+            //$('.selectpicker').selectpicker();
+        });
 
     </script>
 </body>
 
 </html>
+
