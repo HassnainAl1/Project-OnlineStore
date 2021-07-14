@@ -1,8 +1,8 @@
 ﻿@using OnlineStore.Helpers
 @using System.Security.Claims
-
+@using OnlineStore.Models.WebModels
 @*@using OnlineStore.Models.WebModels
-@model CartViewModels*@
+    @model CartViewModels*@
 
 
 @{
@@ -37,12 +37,12 @@
 
     #cartlist {
         margin-right: 10px;
-        cursor:default !important;
+        cursor: default !important;
     }
+
     .dropdown-menu {
-        
         overflow: scroll !important;
-        width:580px;
+        width: 580px;
         height: 500px !important;
     }
 
@@ -74,7 +74,6 @@
                 margin: 0;
                 vertical-align: top;
                 box-shadow: none;
-               
             }
 
             .quantity.buttons_added .minus {
@@ -84,6 +83,7 @@
                 border: 1px solid #2196F3;
                 cursor: pointer !important;
             }
+
             .quantity.buttons_added .plus {
                 padding: 7px 10px 8px;
                 height: 41px;
@@ -103,6 +103,7 @@
             .quantity.buttons_added .minus:hover {
                 background: #f44336;
             }
+
             .quantity.buttons_added .plus:hover {
                 background-color: #04AA6D;
             }
@@ -118,7 +119,6 @@
         .quantity.buttons_added .plus:focus {
             outline: none;
         }
-
 </style>
 
 <header class="">
@@ -149,6 +149,8 @@
 
                     @if (User.Identity.IsAuthenticated)
                     {
+
+                        //CartViewModels products = (CartViewModels)Session["Products"];
 
                         <li class="nav-item dropdown user-menu">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
@@ -201,7 +203,7 @@
 
                     }
                     <li class="nav-item cart-S">
-                       
+
                     </li>
 
 

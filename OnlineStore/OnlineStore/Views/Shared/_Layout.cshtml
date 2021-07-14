@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@using OnlineStore.Helpers
+<!DOCTYPE html>
 <html lang="en">
 @*@using OnlineStore.Models.WebModels
     @model CartViewModels*@
@@ -64,6 +66,9 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
+    @{ 
+        var currentRole = User.Identity.GetClaimValue(ClaimTypes.Role);
+    }
     <script language="text/Javascript">
 
         cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
@@ -85,7 +90,7 @@
                     $(".cart-S").empty();
                     $(".cart-S").append(response);
 
-                    $.each($("#cartlist .table > tbody > tr  .xBtn"), function () {
+                    $.each($(".xBtn"), function () {
                         var crorssButton = $(this);
                         crorssButton.click(function () {
 
@@ -121,6 +126,9 @@
                             var TnPrice = toTalBill.toFixed(2);
                             $("#Bill").text(TnPrice);
 
+                            if (toTalBill == 0) {
+                                $(".dropdown-menu").hide();
+                            }
 
 
                         });
@@ -191,6 +199,19 @@
                         });
                     });
 
+                    $("#Checkout-P-Btn").click(function () {
+
+                        if ('@currentRole'.toLowerCase() === 'user') {
+                            window.location.href = "/Products/CheckoutProcedure";
+                        }
+                        else {
+                            window.location.href = "/Account/Login?returnUrl=/Products/CheckoutProcedure";
+                        }
+
+                    });
+
+
+                    //
                 }
             });
         }

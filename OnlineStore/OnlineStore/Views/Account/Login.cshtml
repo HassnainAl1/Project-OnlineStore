@@ -11,12 +11,13 @@
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">Sign in to start your session</p>
-            @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+            @using (Html.BeginForm("Login", "Account", FormMethod.Post,new { returnUrl = ViewBag.ReturnUrl }))
             {
 
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
+                <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
 
                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                 <div class="input-group mb-3">

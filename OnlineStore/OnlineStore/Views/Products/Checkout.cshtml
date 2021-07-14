@@ -5,71 +5,73 @@
 
 <div class="dropdown">
     <a class="fas fa-shopping-cart" data-toggle="dropdown" style="color: gold; margin-top: 15px; font-size: 25px; !important " id="btnid"></a>
+    @if (Model.UserCartProducts != null && Model.UserCartProducts.Count > 0)
+    {
 
-    <ul class="dropdown-menu dropdown-menu-right" id="cartlist">
-        @if (Model != null)
-        {
-            if (Model.UserCartProducts != null && Model.UserCartProducts.Count > 0)
+        <ul class="dropdown-menu dropdown-menu-right" id="cartlist">
+            @if (Model != null)
             {
-
-                <div class="cartDiv">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>
-                                Image
-                            </th>
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Price
-                            </th>
-                            <th>
-                                Quantity
-                            </th>
-                            <th>
-                                Total
-                            </th>
-                        </tr>
-                        <tbody>
-                            @foreach (var product in Model.UserCartProducts)
-                            {
-                                var productQuantity = Model.CartProductIDS.Where(productid => productid == product.Id).Count();
-                                <tr id="PId_@product.Id">
-                                    <td>
-                                        <img src="@Url.Content("~/" + @product.PImage)" class="" style="width:50px;height:50px" alt="User Image">
-                                    </td>
-                                    <td>@product.PName</td>
-                                    <td>@product.SellPrice</td>
-                                    <td>
-                                        @*@productQuantity*@ 
-                                        <div class="quantity buttons_added">
-                                            <input type="button" value="-" class="minus"><input type="number" readonly data-id="@product.Id" data-price="@product.SellPrice" step="1" min="1" max="" name="quantity" value="@productQuantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
-                                        </div>
-                                    </td>
-                                    <td><span class="Total-Price__View">@(product.SellPrice* productQuantity)</span> <button type="button" class="close xBtn" style="color: red; font-size: 25px; margin-top: 8px; margin-right: -10px; font-family: 'Poppins'; font-weight: 800; " aria-label="Close" data-idd="@product.Id" data-quantity="@productQuantity"><span aria-hidden="false">&times;</span></button></td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="Total_Bill">
-                    <b>Total Bill: </b><span id="Bill"> @Model.UserCartProducts.Sum(x => x.SellPrice * Model.CartProductIDS.Where(productid => productid == x.Id).Count())</span>
-                </div>
-            }
-            @*else
+                if (Model.UserCartProducts != null && Model.UserCartProducts.Count > 0)
                 {
-                    <div>
-                        No Product Found
+
+                    <div class="cartDiv">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>
+                                    Image
+                                </th>
+                                <th>
+                                    Name
+                                </th>
+                                <th>
+                                    Price
+                                </th>
+                                <th>
+                                    Quantity
+                                </th>
+                                <th>
+                                    Total
+                                </th>
+                            </tr>
+                            <tbody>
+                                @foreach (var product in Model.UserCartProducts)
+                                {
+                                    var productQuantity = Model.CartProductIDS.Where(productid => productid == product.Id).Count();
+                                    <tr id="PId_@product.Id">
+                                        <td>
+                                            <img src="@Url.Content("~/" + @product.PImage)" class="" style="width:50px;height:50px" alt="User Image">
+                                        </td>
+                                        <td>@product.PName</td>
+                                        <td>@product.SellPrice</td>
+                                        <td>
+                                            @*@productQuantity*@
+                                            <div class="quantity buttons_added">
+                                                <input type="button" value="-" class="minus"><input type="number" readonly data-id="@product.Id" data-price="@product.SellPrice" step="1" min="1" max="" name="quantity" value="@productQuantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                                            </div>
+                                        </td>
+                                        <td><span class="Total-Price__View">@(product.SellPrice* productQuantity)</span> <button type="button" class="close xBtn" style="color: red; font-size: 25px; margin-top: 8px; margin-right: -10px; font-family: 'Poppins'; font-weight: 800; " aria-label="Close" data-idd="@product.Id" data-quantity="@productQuantity"><span aria-hidden="false">&times;</span></button></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
-                }*@
-        }
 
-    </ul>
+                    <div class="Total_Bill" >
+                        <b style="font-size: 18px; padding: 0.3em; ">Total Bill: </b><span id="Bill" style="font-size: 18px;"> @Model.UserCartProducts.Sum(x => x.SellPrice * Model.CartProductIDS.Where(productid => productid == x.Id).Count())</span><span><button id="Checkout-P-Btn" class="cartbtn" style="margin-left: 205px;">Proceed To Checkout</button></span>
+                    </div>
+                }
+                @*else
+                    {
+                        <div>
+                            No Product Found
+                        </div>
+                    }*@
+            }
+
+        </ul>
 
 
-
+    }
 </div>
 
 

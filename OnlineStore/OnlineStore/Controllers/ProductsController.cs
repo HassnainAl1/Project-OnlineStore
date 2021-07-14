@@ -100,16 +100,23 @@ namespace OnlineStore.Controllers
 
         public ActionResult Checkout()
         {
-            CartViewModels model =new CartViewModels();
+            CartViewModels model = GetProductsFromCookies();
+            Session["Products"] = model;
+            return PartialView(model);
+        }
+
+        private CartViewModels GetProductsFromCookies()
+        {
+            CartViewModels model = new CartViewModels();
 
             var CartProductsCookie = Request.Cookies["CartProducts"];
 
-            if (CartProductsCookie !=null)
+            if (CartProductsCookie != null)
             {
-                model.CartProductIDS = CartProductsCookie.Value.Split('-').Where(x=>x !="").Select(x=>int.Parse(x)).ToList();
+                model.CartProductIDS = CartProductsCookie.Value.Split('-').Where(x => x != "").Select(x => int.Parse(x)).ToList();
                 model.UserCartProducts = GetProductsByIds(model.CartProductIDS);
             }
-            return PartialView(model);
+            return model;
         }
 
         public List<Product> GetProductsByIds(List<int> IDs)
@@ -118,5 +125,10 @@ namespace OnlineStore.Controllers
         }
 
 
+        public ActionResult CheckoutProcedure()
+        {
+            CartViewModels model = GetProductsFromCookies();
+            return View(model);
+        }
     }
 }

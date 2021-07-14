@@ -65,6 +65,8 @@ namespace OnlineStore.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            //Session["ReturnUrl"] = returnUrl;
+            //Session.Remove("ReturnUrl");
             return View();
         }
 
@@ -100,7 +102,8 @@ namespace OnlineStore.Controllers
 
             }, DefaultAuthenticationTypes.ApplicationCookie);
             HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
-            //Session["User_Photo"] = user.ProfilePicture;
+            if(!string.IsNullOrEmpty(returnUrl))
+                return Redirect(returnUrl);
             return Redirect("~/");
         }
 
