@@ -102,12 +102,14 @@
                             var productId = $(this).attr('data-idd');
                             var quantity = $(this).parent().parent().find(".qty").attr("value");
                             quantity = Number(quantity);
+                            var newId = [];
+                            productId = Number(productId);
                             var oldProducts = $.cookie('CartProducts');
                             oldProducts = oldProducts.split("-");
                             var newId = [];
                             $.each(oldProducts, function (index, value) {
                                 if (Number(value) > 0) {
-                                    if (Number(productId) !== Number(value) && $.inArray(value, newId) === -1) {
+                                    if (Number(productId) !== Number(value)) {
                                         newId.push(value);
                                     }
                                 }
@@ -115,6 +117,7 @@
 
                             newId = newId.join("-");
                             $.cookie('CartProducts', newId, { expires: 10, path: '/' });
+
                             $(this).closest("tr").remove();
                             event.stopPropagation();
                             var nCount = Number(oldoldv) - Number(quantity);
@@ -177,8 +180,7 @@
                                     var oldVal = $(".icon-button__badge").text();
                                     var newVal = Number(oldVal) - 1;
                                     var oldVal = $(".icon-button__badge").text(newVal);
-                                    var val = $(this).siblings(".qty").val();
-
+                                    
                                     var productId = $(this).siblings(".qty").attr('data-id');
                                     RemoveCookie(productId);
 
@@ -207,6 +209,9 @@
 
                         if ('@currentRole'.toLowerCase() === 'user') {
                             window.location.href = "/Products/CheckoutProcedure";
+
+
+
                         }
                         else {
                             window.location.href = "/Account/Login?returnUrl=/Products/CheckoutProcedure";
@@ -232,24 +237,17 @@
         }
 
         function RemoveCookie(productId) {
-            
-            var quantity = "1";
-            quantity = Number(quantity);
+
             var oldProducts = $.cookie('CartProducts');
             oldProducts = oldProducts.split("-");
-            var newId = [];
-            $.each(oldProducts, function (index, value) {
-                if (Number(value) > 0) {
-                    if (Number(productId) !== Number(value) && $.inArray(value, newId) === -1) {
-                        newId.push(value);
-                    }
-                }
-            });
+            var index = oldProducts.indexOf(productId);
+            if (index > -1) {
+                oldProducts.splice(index, 1);
+            }
 
-            newId = newId.join("-");
-            $.cookie('CartProducts', newId, { expires: 10, path: '/' });
+            oldProducts = oldProducts.join("-");
+            $.cookie('CartProducts', oldProducts, { expires: 10, path: '/' });
         }
-
 
         $(".cartbtn").click(function () {
             var productId = $(this).attr('data-id');
@@ -269,10 +267,10 @@
         $(document).on('click', 'cart-S > .dropdown', function (e) {
             e.stopPropagation();
         });
-
-        $(function () {
-            //$('.selectpicker').selectpicker();
+        $(document).on('click', '.cart-S > .dropdown > .dropdown-menu', function (e) {
+            e.stopPropagation();
         });
+
 
     </script>
 </body>

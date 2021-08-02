@@ -12,13 +12,15 @@ namespace WebApi.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Cart
+    public partial class Order
     {
         public int Id { get; set; }
-        public int PId { get; set; }
-        public string UKey { get; set; }
-        public int Quantity { get; set; }
+        public int OrderNumber { get; set; }
+        public int UId { get; set; }
+        public System.DateTime OrderDate { get; set; }
+        public string Status { get; set; }
+        public decimal TotalAmount { get; set; }
     
-        public virtual Product Product { get; set; }
+        public virtual User User { get; set; }
     }
 }

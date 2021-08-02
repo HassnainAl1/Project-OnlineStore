@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using OnlineStore.Models.WebModels;
 using OnlineStore.Enums;
+using System.Configuration;
 
 namespace OnlineStore.Controllers
 {
@@ -128,6 +129,7 @@ namespace OnlineStore.Controllers
         public ActionResult CheckoutProcedure()
         {
             CartViewModels model = GetProductsFromCookies();
+            ViewBag.StripePublishKey = ConfigurationManager.AppSettings["stripePublishableKey"];
             return View(model);
         }
     }

@@ -22,7 +22,7 @@
                             <div class="col-lg-4 col-md-4 all des" style="position: absolute; left: 0%; top: 0px;">
                                 <div class="product-item">
                                     <a href="@Url.Action("Details","Products",new { id = Model.Id})">
-                                        <img class="img-fluid img-thumbnail" style="height: 165px;" src="@(string.IsNullOrEmpty(Model.PImage) ? Url.Content("~/Images/DPI.png") : Url.Content(Model.PImage))" alt="">
+                                        <img class="img-fluid img-thumbnail" style="height: 165px;" src="@(string.IsNullOrEmpty(Model.PImage) ? Url.Content("~/Images/DPI.png") : Url.Content("~/" + Model.PImage))" alt="">
                                     </a>
                                     <div class="down-content">
                                         <a href="@Url.Action("Details","Products",new { id = Model.Id})">
@@ -30,11 +30,13 @@
                                         </a>
                                         <h6>$ @Model.SellPrice</h6>
                                         <p>@Model.Description</p>
-                                        <div>
-                                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                                            @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
+                                        @if (User.IsInRole("Admin"))
+                                        {<div>
+                                                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                                                @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { onclick = "return confirm('Are sure wants to delete?');" })
 
-                                        </div>
+                                            </div>
+                                        }
                                         <span>@Resources.Reviews (12)</span>
                                     </div>
                                 </div>

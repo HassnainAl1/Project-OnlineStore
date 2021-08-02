@@ -6,7 +6,7 @@
 @model CartViewModels
 
 @{
-//Layout = null;
+    //Layout = null;
 }
 
 @{
@@ -70,11 +70,24 @@
         <div class="Total_Bill">
             <b style="font-size: 18px; padding: 0.3em; ">@Resources.Total_Bill: </b><span id="Bill" style="font-size: 18px;"> @Model.UserCartProducts.Sum(x => x.SellPrice * Model.CartProductIDS.Where(productid => productid == x.Id).Count())</span>
         </div>
+        @*<div>
+                <button id="Pay-P-Btn" class="Paytbtn" style="margin-left: 205px;">@Resources.Pay_Now</button>
+            </div>*@
 
-        <div>
-            <button id="Pay-P-Btn" class="Paytbtn" style="margin-left: 205px;">@Resources.Pay_Now</button>
-        </div>
+        <form action="/Home/Charge" method="POST">
 
+            <article>
+                @*<label>Amount:</label>*@
+            </article>
+            <script src="//checkout.stripe.com/v2/checkout.js"
+                    class="stripe-button"
+                    data-key="@ViewBag.StripePublishKey"
+                    data-locale="auto"
+                    data-currency = "USD"
+                    data-description="Sample Charge"
+                    data-amount="@Model.UserCartProducts.Sum(x => x.SellPrice * Model.CartProductIDS.Where(productid => productid == x.Id).Count())">
+            </script>
+        </form>
     }
 
 

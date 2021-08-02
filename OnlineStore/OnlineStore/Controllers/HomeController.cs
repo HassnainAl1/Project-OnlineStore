@@ -2,8 +2,10 @@
 using OnlineStore.DAL;
 using OnlineStore.DAL.Interfaces;
 using OnlineStore.Helpers;
+using Stripe;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
@@ -66,6 +68,40 @@ namespace OnlineStore.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult Pay()
+        {
+            ViewBag.StripePublishKey = ConfigurationManager.AppSettings["stripePublishableKey"];
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Charge(string stripeToken, string stripeEmail)
+       
+        {
+            Stripe.StripeConfiguration.SetApiKey(ConfigurationManager.AppSettings["stripePublishableKey"]);
+            Stripe.StripeConfiguration.ApiKey = ConfigurationManager.AppSettings["stripeSecretKey"];
+
+            var myCharge = new Stripe.ChargeCreateOptions();
+
+            // always set these properties
+            myCharge.Amount = 1000;
+            myCharge.Currency = "USD";
+
+            myCharge.ReceiptEmail = stripeEmail;
+            myCharge.Description = "Sample Charge";
+            myCharge.Source = stripeToken;
+            myCharge.Capture = true;
+
+            var chargeService = new Stripe.ChargeService();
+            Charge stripeCharge = chargeService.Create(myCharge);
+
+            return View("PaymentStatus");
+        }
+
+        public ActionResult PaymentStatus()
+        {
             return View();
         }
     }

@@ -14,6 +14,7 @@ namespace WebApi.DAL
         public UnitOfWork()
         {
             _context = new OnlineStoreDBEntities();
+            //_context.Configuration.ProxyCreationEnabled = false;
         }
 
         public IRepository<Cart> CartRepo 

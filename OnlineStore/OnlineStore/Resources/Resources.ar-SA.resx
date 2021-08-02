@@ -252,6 +252,9 @@
   <data name="Reviews" xml:space="preserve">
     <value>المراجعات</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
   <data name="Sign in" xml:space="preserve">
     <value>تسجيل الدخول</value>
   </data>
