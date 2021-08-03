@@ -2,6 +2,7 @@
 using OnlineStore.DAL;
 using OnlineStore.DAL.Interfaces;
 using OnlineStore.Helpers;
+using OnlineStore.Models.WebModels;
 using Stripe;
 using System;
 using System.Collections.Generic;
@@ -76,8 +77,27 @@ namespace OnlineStore.Controllers
             ViewBag.StripePublishKey = ConfigurationManager.AppSettings["stripePublishableKey"];
             return View();
         }
+
+        private CartViewModels GetProductsFromCookies()
+        {
+            CartViewModels model = new CartViewModels();
+
+            var CartProductsCookie = Request.Cookies["CartProducts"];
+
+            if (CartProductsCookie != null)
+            {
+                model.CartProductIDS = CartProductsCookie.Value.Split('-').Where(x => x != "").Select(x => int.Parse(x)).ToList();
+                model.UserCartProducts = GetProductsByIds(model.CartProductIDS);
+            }
+            return model;
+        }
+        public List<Models.Product> GetProductsByIds(List<int> IDs)
+        {
+            return _unitOfWork.ProductRepo.Get(product => IDs.Contains(product.Id)).ToList();
+        }
+
         [HttpPost]
-        public ActionResult Charge(string stripeToken, string stripeEmail)
+        public ActionResult Charge(long totalPrice,string stripeToken, string stripeEmail)
        
         {
             Stripe.StripeConfiguration.SetApiKey(ConfigurationManager.AppSettings["stripePublishableKey"]);
@@ -86,7 +106,7 @@ namespace OnlineStore.Controllers
             var myCharge = new Stripe.ChargeCreateOptions();
 
             // always set these properties
-            myCharge.Amount = 1000;
+            myCharge.Amount = totalPrice;
             myCharge.Currency = "USD";
 
             myCharge.ReceiptEmail = stripeEmail;
@@ -97,7 +117,8 @@ namespace OnlineStore.Controllers
             var chargeService = new Stripe.ChargeService();
             Charge stripeCharge = chargeService.Create(myCharge);
 
-            return View("PaymentStatus");
+           var cartViewModel =  GetProductsFromCookies();
+            return View("PaymentStatus", cartViewModel);
         }
 
         public ActionResult PaymentStatus()

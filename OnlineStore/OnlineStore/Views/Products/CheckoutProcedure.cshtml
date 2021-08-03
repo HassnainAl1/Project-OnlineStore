@@ -75,17 +75,17 @@
             </div>*@
 
         <form action="/Home/Charge" method="POST">
-
-            <article>
-                @*<label>Amount:</label>*@
-            </article>
+          @{ 
+              var totalPrice = Model.UserCartProducts.Sum(x => x.SellPrice * Model.CartProductIDS.Where(productid => productid == x.Id).Count());
+          }
+            <input type="hidden" name="totalPrice" value="@(totalPrice.ToString().Replace(".",""))" />
             <script src="//checkout.stripe.com/v2/checkout.js"
                     class="stripe-button"
                     data-key="@ViewBag.StripePublishKey"
                     data-locale="auto"
-                    data-currency = "USD"
+                    data-currency = "usd"
                     data-description="Sample Charge"
-                    data-amount="@Model.UserCartProducts.Sum(x => x.SellPrice * Model.CartProductIDS.Where(productid => productid == x.Id).Count())">
+                    data-amount="@(totalPrice.ToString().Replace(".",""))">
             </script>
         </form>
     }

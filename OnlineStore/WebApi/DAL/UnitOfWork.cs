@@ -24,6 +24,15 @@ namespace WebApi.DAL
                 return new Repository<Cart>(_context);
             }
         }
+
+        public IRepository<Order> OrderRepo
+        {
+            get
+            {
+                return new Repository<Order>(_context);
+            }
+        }
+
         public void Save()
         {
             _context.SaveChanges();

@@ -82,65 +82,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 <script>
 
-    $(document).ready(function () {
-        //var bearer ="";
-        var user = {
-            grant_type: 'password',
-            username: 'amirali123@gmail.com',
-            password: '12345'
-        };
-        $.ajax({
-            type: "POST",
-            url: "https://localhost:44361/token",
-            data: user,
-            contentType: "application/x-www-form-urlencoded",
-            dataType: "json",
-            success: function (tokenResponse) {
-                //bearer = JSON.parse(JSON.stringify(data));
-                //bearer = tokenResponse.access_token;
-                sessionStorage.setItem("access_token", tokenResponse.access_token);
-                Authorization();
-            },
-            failure: function (response) {
-                alert(response.responseText);
-            },
-            error: function (response) {
-                alert(response.responseText);
-            }
-        });
-
-
-        function Authorization() {
-            $.ajax({
-                type: "GET",
-                url: "https://localhost:44361/api/cart/getall",
-                headers: {
-                    'Authorization': 'Bearer ' + sessionStorage.getItem("access_token")
-                },
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (a) {
-                    alert(JSON.stringify(a))
-                    //$.each(a, function (x, y) {
-                    //    alert(x)
-                    //    alert(y)
-                    //    $.each(y, function (x, y) {
-                    //        alert(x)
-                    //        alert(y)
-                    //    });
-                    //});
-
-                    //alert("Hello: " + a.Name + ".\nCurrent Date and Time: " + a.address);
-                },
-                failure: function (response) {
-                    alert(response.responseText);
-                },
-                error: function (response) {
-                    alert(response.responseText);
-                }
-            });
-        }
-    })
+    
 
 
 </script>

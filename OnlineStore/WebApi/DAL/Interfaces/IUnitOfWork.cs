@@ -10,6 +10,7 @@ namespace WebApi.DAL.Interfaces
     public interface IUnitOfWork
     {
         IRepository<Cart> CartRepo { get; }
+        IRepository<Order> OrderRepo { get; }
         void Save();
     }
 }

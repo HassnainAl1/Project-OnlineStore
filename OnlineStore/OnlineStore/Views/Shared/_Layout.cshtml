@@ -271,6 +271,37 @@
             e.stopPropagation();
         });
 
+        $(document).ready(function () {
+            //var bearer ="";
+            var user = {
+                grant_type: 'password',
+                username: 'amirali123@gmail.com',
+                password: '12345'
+            };
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:44361/token",
+                data: user,
+                contentType: "application/x-www-form-urlencoded",
+                dataType: "json",
+                success: function (tokenResponse) {
+                    //bearer = JSON.parse(JSON.stringify(data));
+                    //bearer = tokenResponse.access_token;
+                    sessionStorage.setItem("access_token", tokenResponse.access_token);
+                    Authorization();
+                },
+                failure: function (response) {
+                    console.log(response.responseText);
+                },
+                error: function (response) {
+                    console.log(response.responseText);
+                }
+            });
+
+
+
+        })
+
 
     </script>
 </body>

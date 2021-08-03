@@ -40,9 +40,24 @@ namespace WebApi.Controllers
             return Ok(cartItems);
         }
 
-        public IHttpActionResult AddItems([FromBody] Cart cart)
+
+        [Route("AddItems")]
+        [HttpPost]
+        //[Authorize]
+        public IHttpActionResult AddItems([FromBody] Order order)
         {
-            _unitOfWork.CartRepo.Insert(cart);
+            var rand = RandomGen.Next();
+
+            _unitOfWork.OrderRepo.Insert(new Order
+            {
+                OrderNumber=rand,
+                UId=order.UId,
+                OrderDate= System.DateTime.Now,
+                Status=order.Status,    
+                TotalAmount=order.TotalAmount,
+                OrderDetails=order.OrderDetails
+            });
+
             _unitOfWork.Save();
             return Ok();
         }

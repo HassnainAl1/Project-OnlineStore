@@ -1,4 +1,10 @@
-﻿<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+﻿@using OnlineStore.Models.WebModels
+@using OnlineStore.Helpers
+@using System.Security.Claims
+@model CartViewModels
+
+
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 <style type="text/css">
 
@@ -78,3 +84,58 @@
         </div>
     </div>
 </div>
+@section scripts{
+    <script>
+const { json } = require("modernizr");
+
+        $(document).ready(function () {
+var total= "/****************************************************************************************************************/";
+        var orderDetails=[];
+            var ord = $.cookie('CartProducts').split("-");
+
+        debugger;
+        $.each(ord, function (index, value) {
+           var orderDetail = {
+                PId: value  ,
+                OrderID : "",
+                ProductPurchasePrice :"",
+                ProductSellPrice :"",
+                Quantity :1,
+                Discounts:""
+            }
+            orderDetails.push(orderDetail);
+        });
+
+
+
+        var userId="/*****************************************************/"
+        var order = {
+            TotalAmount: total,
+            UId: "userId",
+            Status: "Success",
+            OrderDetails: orderDetails
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "https://localhost:44361/api/cart/AddItems",
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("access_token")
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(order),
+            success: function (a) {
+                alert(JSON.stringify(a))
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+
+        })
+    </script>
+}

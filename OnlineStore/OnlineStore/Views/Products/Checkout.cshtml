@@ -16,23 +16,25 @@
 
                     <div class="cartDiv">
                         <table class="table table-bordered">
-                            <tr>
-                                <th>
-                                    @Resources.Image
-                                </th>
-                                <th>
-                                    @Resources.Name
-                                </th>
-                                <th>
-                                    @Resources.Price
-                                </th>
-                                <th>
-                                    @Resources.Quantity
-                                </th>
-                                <th>
-                                    @Resources.Total
-                                </th>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Resources.Image
+                                    </th>
+                                    <th>
+                                        @Resources.Name
+                                    </th>
+                                    <th>
+                                        @Resources.Price
+                                    </th>
+                                    <th>
+                                        @Resources.Quantity
+                                    </th>
+                                    <th>
+                                        @Resources.Total
+                                    </th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 @foreach (var product in Model.UserCartProducts)
                                 {
